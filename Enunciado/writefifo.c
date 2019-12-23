@@ -21,7 +21,7 @@ int main(){
 	   sprintf(line,"%04X",i);
 	   write(pipe, line, strlen(line));
 	   sleep(2);
-   }
+	}
    close(pipe);
    return(0);
 }   
