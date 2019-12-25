@@ -21,7 +21,7 @@ int main()
 	while(read(pipe, line, MAX_LINE))
 		// Print the read string and close
 	    printf("\nHe leido: %s\n", line);
-	close(pipe);	
+	close(pipe);
 	
 	return 0;
 }
