@@ -17,15 +17,11 @@ int main(int argc,char *argv[])
 {	
 	int pipe;
 	while ((pipe = open(PIPE, O_RDONLY)) < 0); // Wait for pipe to open
-	/*{
-		printf("ERROR: Imposible abrir el pipe FIFOTLB\n");
-		return -1;       
-	}*/
 	
-	char line[MEMADDR_SIZ];	
-	while(read(pipe, line, MEMADDR_SIZ))
+	unsigned line;	
+	while(read(pipe, &line, sizeof(line)))
 	{
-	    printf("He leido: %s\n", line);
+	    printf("He leido: %04X\n", line);
 	}
 	    
 	close(pipe);
