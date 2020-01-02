@@ -25,6 +25,5 @@ int main(int argc,char *argv[])
 	}
 	    
 	close(pipe);
-	
 	return 0;
 }

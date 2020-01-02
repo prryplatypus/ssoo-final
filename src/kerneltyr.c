@@ -49,9 +49,7 @@ int main(int argc,char *argv[])
 		
 		while (fgets(line, MEMADDR_SIZ + 1, fp) != NULL){
 			to_send = (int)strtol(line, NULL, 16); // Convert hex string to its hex value
-			printf("Sending: %04X (%d)\n", to_send, sizeof(to_send)); // Borrar esta línea para entregar la práctica
 			write(pipe, &to_send, sizeof(to_send));
-			fgets(line, 2, fp); // Skip whitespace / newline characters
 			sleep(2);
 		}
 		
