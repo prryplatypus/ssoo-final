@@ -45,9 +45,9 @@ int main(int argc,char *argv[])
 		
 		// Only allocate memory for this variables if pipe and file oopened successfully
 		unsigned to_send;
-		char line[MEMADDR_SIZ + 1];
+		char line[MEMADDR_SIZ];
 		
-		while (fgets(line, MEMADDR_SIZ + 1, fp) != NULL){
+		while (fgets(line, MEMADDR_SIZ, fp) != NULL){
 			to_send = (int)strtol(line, NULL, 16); // Convert hex string to its hex value
 			write(pipe, &to_send, sizeof(to_send));
 			sleep(2);
