@@ -25,12 +25,22 @@ void printTLB( T_TLB *tlb) { // TEMPORAL
 	printf("El estado de la tlb es:\n");
 	for(i = 0; i < 4; ++i)
 	{
-		printf("\t%X ", tlb[i].pagina);
-		printf("\t%X ", tlb[i].marco);
-		printf("\t%d ", tlb[i].valida);
-		printf("\t%d ", tlb[i].tiempo);
+		printf("\tp:%X ", tlb[i].pagina);
+		printf("\tm:%X ", tlb[i].marco);
+		printf("\tv:%d ", tlb[i].valida);
+		printf("\tt:%d ", tlb[i].tiempo);
 		printf("\n");
 	}
+}
+
+int comprobarValida( T_TLB*tlb, int pagina) {
+	int i;
+	for(i = 0; i < 4; ++i){
+			if(pagina == tlb[i].pagina && tlb[i].valida == 1){
+				return 1;
+			}
+	}
+	return 0;
 }
 
 // Falta lo de armar la SIGUSR2
@@ -63,20 +73,19 @@ int main()
 	}
 	while(read(pipe, &line, MEMADDR_SIZ))
 	{
+		
+		printTLB(tlb);
+		
 		printf("Estoy leyendo %04X\n", line);
 		pagina  = ((line & 0xF000) >> 12);
 		offset = ((line) & 0x0FFF);
 		printf("La pagina es %X y el offset es %03X\n", pagina, offset);
 		
 		tiempoGlobal++;
-		for(i = 0; i < 4; ++i)
-		{
-			if(pagina == tlb[i].pagina && tlb[i].valida == 1)
-			{
-				// Aqui se imprime la traduccion
-			}
-		}
-		if(i == 4) // == No hay traduccion valida
+		
+		int valida = comprobarValida(tlb, pagina);
+		
+		if(valida == 0) // == No hay traduccion valida
 		{
 			numFallos++;
 			for(i = 0; i < 4; ++i)
@@ -86,14 +95,18 @@ int main()
 					tlb[i].pagina = pagina;
 					tlb[i].tiempo = tiempoGlobal;
 					tlb[i].valida = 1;
+					printf("%X, Fallo de TLB %X, VADDR %04X pagina %X offset %03X\n", tiempoGlobal, numFallos, line, pagina, offset);
+					tiempoGlobal++;
+					comprobarValida(tlb, pagina);
 					break;
 				}
+				
 			}
 			
 			// Aqui iria lo de decidir a que pagina expulsar
 		
 		}
-		printTLB(tlb);
+		
 	}
 	printf("TLB ya\n");
 	close(pipe);
