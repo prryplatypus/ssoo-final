@@ -43,12 +43,13 @@ int main(int argc,char *argv[])
 			return -1;
 		}
 		
-		// Only allocate memory for this variables if pipe and file oopened successfully
+		// Only allocate memory for this variables if pipe and file opened successfully
 		unsigned to_send;
-		char line[MEMADDR_SIZ];
+		unsigned read_size = (MEMADDR_SIZ + 3) * sizeof(char); // Line num + '\0' + '\n'
+		char *line = (char *)malloc(read_size);
 		
-		while (fgets(line, MEMADDR_SIZ, fp) != NULL){
-			to_send = (int)strtol(line, NULL, 16); // Convert hex string to its hex value
+		while (fgets(line, read_size, fp) != NULL){
+			to_send = (unsigned)strtol(line, NULL, 16); // Convert hex string to its hex value
 			write(pipe, &to_send, sizeof(to_send));
 			sleep(2);
 		}
