@@ -31,6 +31,7 @@ void printTLB( T_TLB *tlb) { // TEMPORAL
 		printf("\tt:%d ", tlb[i].tiempo);
 		printf("\n");
 	}
+	printf("\n");
 }
 
 int comprobarValida( T_TLB*tlb, int pagina) {

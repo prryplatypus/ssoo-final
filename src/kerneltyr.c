@@ -39,7 +39,7 @@ int main(int argc,char *argv[])
 		// File init
 		FILE *fp = fopen(FILENAME, "r");
 		if (fp == NULL){
-			printf("Could not open file %s", FILENAME);
+			printf("Could not open file %s\n", FILENAME);
 			return -1;
 		}
 		
