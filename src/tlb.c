@@ -72,7 +72,7 @@ int main()
 		printf("Sa matao...\n");
 		return -1;
 	}
-	while(read(pipe, &line, MEMADDR_SIZ))
+	while(read(pipe, &line, sizeof(line)))
 	{
 		
 		printTLB(tlb);
