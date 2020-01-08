@@ -17,13 +17,7 @@
 #include "global.h"
 
 int main(int argc,char *argv[])
-{
-	if (MEMADDR_SIZ > sizeof(unsigned) * 2)
-	{
-		printf("Unable to use this memory address size. Maximum possible is %d bytes.\n", sizeof(unsigned));
-		return -1;
-	}
-	
+{	
 	pid_t pid = fork();
 
 	if (pid == 0) { // Child process
@@ -51,9 +45,9 @@ int main(int argc,char *argv[])
 		
 		// Only allocate memory for this variables if pipe and file opened successfully
 		unsigned to_send;
-		char *line = (char *)malloc((MEMADDR_SIZ + 2) * sizeof(char)); // '\0' + '\n'
+		char *line = (char *)malloc(6 * sizeof(char)); // 4 chars + '\0\n'
 		
-		while (fgets(line, (MEMADDR_SIZ + 3), fp) != NULL){
+		while (fgets(line, 7, fp) != NULL){
 			to_send = (unsigned)strtol(line, NULL, 16); // Convert hex string to its hex value
 			write(pipe, &to_send, sizeof(to_send));
 			sleep(2);
