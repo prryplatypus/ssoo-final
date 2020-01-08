@@ -54,8 +54,8 @@ int main()
 	int pagina;
 	int offset;
 	
-	int tiempoGlobal = 0;
-	int numFallos = 0;
+	unsigned tiempoGlobal = 0;
+	unsigned numFallos = 0;
 	
 	unsigned line;	
 	
@@ -77,16 +77,16 @@ int main()
 		
 		printTLB(tlb);
 		
-		printf("Estoy leyendo %04X\n", line);
+		//printf("Estoy leyendo %04X\n", line);
 		pagina  = ((line & 0xF000) >> 12);
 		offset = ((line) & 0x0FFF);
-		printf("La pagina es %X y el offset es %03X\n", pagina, offset);
+		//printf("La pagina es %X y el offset es %03X\n", pagina, offset);
 		
 		tiempoGlobal++;
 		
 		int valida = comprobarValida(tlb, pagina);
 		
-		if(valida == 0) // == No hay traduccion valida
+		while(valida == 0) // == No hay traducción válida
 		{
 			numFallos++;
 			for(i = 0; i < 4; ++i)
@@ -96,17 +96,33 @@ int main()
 					tlb[i].pagina = pagina;
 					tlb[i].tiempo = tiempoGlobal;
 					tlb[i].valida = 1;
-					printf("%X, Fallo de TLB %X, VADDR %04X pagina %X offset %03X\n", tiempoGlobal, numFallos, line, pagina, offset);
+					printf("%d, Fallo de TLB %X, VADDR %04X pagina %X offset %04X\n", tiempoGlobal, numFallos, line, pagina, offset);
 					tiempoGlobal++;
-					comprobarValida(tlb, pagina);
+					valida = comprobarValida(tlb, pagina);
 					break;
 				}
 				
 			}
 			
-			// Aqui iria lo de decidir a que pagina expulsar
+			if(i == 4 && valida == 0){
+				int j;
+				valida = 1;
+				int tiempoMenor, tlbMenor; // Cambiar esto
+				
+				for(j = 0; j < 4; ++j){
+					if(tlb[j].tiempo < tiempoMenor){
+						tiempoMenor = tlb[j].tiempo;
+						tlbMenor = j;
+					}
+				}
+				printf("%d, Expulsada pagina %04X\n", tiempoGlobal, tlb[tlbMenor].pagina);
+				tiempoGlobal++;
+			}
+		
 		
 		}
+			// Es válida
+			printf("%d, Acierto de TLB, VADDR %04X pagina %X offset %04X marco %X => PHYSADDR %01X%03X\n", tiempoGlobal, line, pagina, offset, tlb[i].marco, tlb[i].marco, offset);
 		
 	}
 	printf("TLB ya\n");
