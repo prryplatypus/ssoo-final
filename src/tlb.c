@@ -116,6 +116,10 @@ int main()
 					}
 				}
 				printf("%d, Expulsada pagina %04X\n", tiempoGlobal, tlb[tlbMenor].pagina);
+				i = tlbMenor;
+				tlb[tlbMenor].pagina = pagina;
+				tlb[tlbMenor].tiempo = tiempoGlobal;
+
 				tiempoGlobal++;
 			}
 		
@@ -123,7 +127,7 @@ int main()
 		}
 			// Es válida
 			printf("%d, Acierto de TLB, VADDR %04X pagina %X offset %04X marco %X => PHYSADDR %01X%03X\n", tiempoGlobal, line, pagina, offset, tlb[i].marco, tlb[i].marco, offset);
-		
+			tlb[i].tiempo = tiempoGlobal;
 	}
 	printf("TLB ya\n");
 	close(pipe);
