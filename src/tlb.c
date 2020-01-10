@@ -44,7 +44,12 @@ int comprobarValida( T_TLB*tlb, int pagina) {
 	return 0;
 }
 
-// Falta lo de armar la SIGUSR2
+void sig_handler(int signo)
+{
+  if (signo == SIGUSR2)
+    printf("Apagando\n");
+    exit(0);
+}
 
 int main()
 {
@@ -58,6 +63,8 @@ int main()
 	unsigned numFallos = 0;
 	
 	unsigned line;	
+
+	signal(SIGUSR2, sig_handler);
 	
 	for(i = 0; i < 4; ++i)
 	{	// Se rellena la tlb con valores por defecto
