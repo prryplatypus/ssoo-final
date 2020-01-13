@@ -24,7 +24,7 @@ typedef struct{
 void printTLB( T_TLB *tlb) { // TEMPORAL
 	int i;
 	printf("El estado de la tlb es:\n");
-	for(i = 0; i < 4; ++i)
+	for(i = 0; i < TLB_SIZE; ++i)
 	{
 		printf("\tp:%X ", tlb[i].pagina);
 		printf("\tm:%X ", tlb[i].marco);
@@ -37,7 +37,7 @@ void printTLB( T_TLB *tlb) { // TEMPORAL
 
 int comprobarValida( T_TLB*tlb, int pagina) {
 	int i;
-	for(i = 0; i < 4; ++i){
+	for(i = 0; i < TLB_SIZE; ++i){
 			if(pagina == tlb[i].pagina && tlb[i].valida == 1){
 				return 1;
 			}
@@ -48,13 +48,13 @@ int comprobarValida( T_TLB*tlb, int pagina) {
 void sig_handler(int signo)
 {
   if (signo == SIGUSR2)
-    printf("Apagando\n");
+    printf("Recibida SIGUSR2, apagando\n");
     exit(0);
 }
 
 int main()
 {
-	T_TLB tlb[4];
+	T_TLB tlb[TLB_SIZE];
 	int i;
 	int pipe;
 	int pagina;
@@ -67,7 +67,7 @@ int main()
 
 	signal(SIGUSR2, sig_handler);
 	
-	for(i = 0; i < 4; ++i)
+	for(i = 0; i < TLB_SIZE; ++i)
 	{	// Se rellena la tlb con valores por defecto
 		tlb[i].pagina = 255;
 		tlb[i].marco = (2+i) % 4;
@@ -77,27 +77,26 @@ int main()
 
 	if( (pipe = open(PIPE, O_RDONLY)) < 0 )
 	{
-		printf("Sa matao...\n");
+		printf("No se ha podido abrir...\n");
 		return -1;
 	}
+
+	// Imprime el estado inicial de la tlb
+	printTLB(tlb);
+
 	while(read(pipe, &line, sizeof(line)))
 	{
-		
-		printTLB(tlb);
-		
-		//printf("Estoy leyendo %04X\n", line);
 		pagina  = ((line & 0xF000) >> 12);
 		offset = ((line) & 0x0FFF);
-		//printf("La pagina es %X y el offset es %03X\n", pagina, offset);
 		
 		tiempoGlobal++;
 		
 		int valida = comprobarValida(tlb, pagina);
 		
-		while(valida == 0) // == No hay traducción válida
+		if(valida == 0) // == No hay traducción válida
 		{
 			numFallos++;
-			for(i = 0; i < 4; ++i)
+			for(i = 0; i < TLB_SIZE; ++i)
 			{
 				if( tlb[i].valida == 0)
 				{
@@ -112,12 +111,12 @@ int main()
 				
 			}
 			
-			if(i == 4 && valida == 0){
+			if(i == TLB_SIZE && valida == 0){
 				int j;
 				valida = 1;
-				int tiempoMenor, tlbMenor; // Cambiar esto
+				int tiempoMenor = tlb[0].tiempo, tlbMenor = 0;
 				
-				for(j = 0; j < 4; ++j){
+				for(j = 0; j < TLB_SIZE; ++j){
 					if(tlb[j].tiempo < tiempoMenor){
 						tiempoMenor = tlb[j].tiempo;
 						tlbMenor = j;
@@ -125,7 +124,7 @@ int main()
 				}
 				printf("%d, Expulsada pagina %04X\n", tiempoGlobal, tlb[tlbMenor].pagina);
 				i = tlbMenor;
-				tlb[tlbMenor].pagina = pagina;
+				tlb[tlbMenor].pagina = (short int)pagina;
 				tlb[tlbMenor].tiempo = tiempoGlobal;
 
 				tiempoGlobal++;
@@ -136,6 +135,8 @@ int main()
 			// Es válida
 			printf("%d, Acierto de TLB, VADDR %04X pagina %X offset %04X marco %X => PHYSADDR %01X%03X\n", tiempoGlobal, line, pagina, offset, tlb[i].marco, tlb[i].marco, offset);
 			tlb[i].tiempo = tiempoGlobal;
+
+			printTLB(tlb);
 	}
 	printf("TLB ya\n");
 	close(pipe);
