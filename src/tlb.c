@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <signal.h>
 #include <string.h>
 
 #include "global.h"
