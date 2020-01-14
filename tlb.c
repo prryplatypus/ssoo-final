@@ -96,6 +96,8 @@ int main()
 		if(valida == 0) // == No hay traducción válida
 		{
 			numFallos++;
+			printf("%d, Fallo de TLB %X, VADDR %04X pagina %X offset %04X\n", tiempoGlobal, numFallos, line, pagina, offset);
+
 			for(i = 0; i < TLB_SIZE; ++i)
 			{
 				if( tlb[i].valida == 0)
@@ -103,7 +105,6 @@ int main()
 					tlb[i].pagina = pagina;
 					tlb[i].tiempo = tiempoGlobal;
 					tlb[i].valida = 1;
-					printf("%d, Fallo de TLB %X, VADDR %04X pagina %X offset %04X\n", tiempoGlobal, numFallos, line, pagina, offset);
 					tiempoGlobal++;
 					valida = comprobarValida(tlb, pagina);
 					break;

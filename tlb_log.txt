@@ -50,6 +50,7 @@ El estado de la tlb es:
 	p:E 	m:0 	v:1 	t:8 
 	p:B 	m:1 	v:1 	t:10 
 
+11, Fallo de TLB 5, VADDR C908 pagina C offset 0908
 11, Expulsada pagina 0000
 12, Acierto de TLB, VADDR C908 pagina C offset 0908 marco 2 => PHYSADDR 2908
 El estado de la tlb es:
@@ -58,6 +59,7 @@ El estado de la tlb es:
 	p:E 	m:0 	v:1 	t:8 
 	p:B 	m:1 	v:1 	t:10 
 
+13, Fallo de TLB 6, VADDR 4008 pagina 4 offset 0008
 13, Expulsada pagina 000F
 14, Acierto de TLB, VADDR 4008 pagina 4 offset 0008 marco 3 => PHYSADDR 3008
 El estado de la tlb es:
@@ -73,6 +75,7 @@ El estado de la tlb es:
 	p:E 	m:0 	v:1 	t:8 
 	p:B 	m:1 	v:1 	t:10 
 
+16, Fallo de TLB 7, VADDR 1780 pagina 1 offset 0780
 16, Expulsada pagina 000E
 17, Acierto de TLB, VADDR 1780 pagina 1 offset 0780 marco 0 => PHYSADDR 0780
 El estado de la tlb es:
@@ -88,6 +91,7 @@ El estado de la tlb es:
 	p:1 	m:0 	v:1 	t:18 
 	p:B 	m:1 	v:1 	t:10 
 
+19, Fallo de TLB 8, VADDR 0204 pagina 0 offset 0204
 19, Expulsada pagina 000B
 20, Acierto de TLB, VADDR 0204 pagina 0 offset 0204 marco 1 => PHYSADDR 1204
 El estado de la tlb es:
@@ -97,4 +101,4 @@ El estado de la tlb es:
 	p:0 	m:1 	v:1 	t:20 
 
 Recibida SIGUSR2, fin del proceso tlb
-kerneltyr, mi pid es 3306 y la de la tlb es 3307
+kerneltyr, mi pid es 2535 y la de la tlb es 2536
