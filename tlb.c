@@ -48,7 +48,7 @@ int comprobarValida( T_TLB*tlb, int pagina) {
 void sig_handler(int signo)
 {
   if (signo == SIGUSR2)
-    printf("Recibida SIGUSR2, apagando\n");
+    printf("Recibida SIGUSR2, fin del proceso tlb\n");
     exit(0);
 }
 
@@ -70,7 +70,7 @@ int main()
 	for(i = 0; i < TLB_SIZE; ++i)
 	{	// Se rellena la tlb con valores por defecto
 		tlb[i].pagina = 255;
-		tlb[i].marco = (2+i) % 4;
+		tlb[i].marco = (2+i) % TLB_SIZE;
 		tlb[i].valida = 0;
 		tlb[i].tiempo = 0;
 	}
@@ -124,7 +124,7 @@ int main()
 				}
 				printf("%d, Expulsada pagina %04X\n", tiempoGlobal, tlb[tlbMenor].pagina);
 				i = tlbMenor;
-				tlb[tlbMenor].pagina = (short int)pagina;
+				tlb[tlbMenor].pagina = (short)pagina;
 				tlb[tlbMenor].tiempo = tiempoGlobal;
 
 				tiempoGlobal++;

@@ -47,7 +47,7 @@ int main(int argc,char *argv[])
 		unsigned to_send;
 		char *line = (char *)malloc(6 * sizeof(char)); // 4 chars + '\0\n'
 		
-		while (fgets(line, 7, fp) != NULL){
+		while (fgets(line, 7, fp) != NULL){ // Reads 6 chars (7-1)
 			to_send = (unsigned)strtol(line, NULL, 16); // Convert hex string to its hex value
 			write(pipe, &to_send, sizeof(to_send));
 			sleep(2);

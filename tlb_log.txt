@@ -1,0 +1,100 @@
+El estado de la tlb es:
+	p:FF 	m:2 	v:0 	t:0 
+	p:FF 	m:3 	v:0 	t:0 
+	p:FF 	m:0 	v:0 	t:0 
+	p:FF 	m:1 	v:0 	t:0 
+
+1, Fallo de TLB 1, VADDR 02E4 pagina 0 offset 02E4
+2, Acierto de TLB, VADDR 02E4 pagina 0 offset 02E4 marco 2 => PHYSADDR 22E4
+El estado de la tlb es:
+	p:0 	m:2 	v:1 	t:2 
+	p:FF 	m:3 	v:0 	t:0 
+	p:FF 	m:0 	v:0 	t:0 
+	p:FF 	m:1 	v:0 	t:0 
+
+3, Acierto de TLB, VADDR 0808 pagina 0 offset 0808 marco 2 => PHYSADDR 2808
+El estado de la tlb es:
+	p:0 	m:2 	v:1 	t:3 
+	p:FF 	m:3 	v:0 	t:0 
+	p:FF 	m:0 	v:0 	t:0 
+	p:FF 	m:1 	v:0 	t:0 
+
+4, Fallo de TLB 2, VADDR F045 pagina F offset 0045
+5, Acierto de TLB, VADDR F045 pagina F offset 0045 marco 3 => PHYSADDR 3045
+El estado de la tlb es:
+	p:0 	m:2 	v:1 	t:3 
+	p:F 	m:3 	v:1 	t:5 
+	p:FF 	m:0 	v:0 	t:0 
+	p:FF 	m:1 	v:0 	t:0 
+
+6, Fallo de TLB 3, VADDR ED12 pagina E offset 0D12
+7, Acierto de TLB, VADDR ED12 pagina E offset 0D12 marco 0 => PHYSADDR 0D12
+El estado de la tlb es:
+	p:0 	m:2 	v:1 	t:3 
+	p:F 	m:3 	v:1 	t:5 
+	p:E 	m:0 	v:1 	t:7 
+	p:FF 	m:1 	v:0 	t:0 
+
+8, Acierto de TLB, VADDR ED16 pagina E offset 0D16 marco 0 => PHYSADDR 0D16
+El estado de la tlb es:
+	p:0 	m:2 	v:1 	t:3 
+	p:F 	m:3 	v:1 	t:5 
+	p:E 	m:0 	v:1 	t:8 
+	p:FF 	m:1 	v:0 	t:0 
+
+9, Fallo de TLB 4, VADDR B7F2 pagina B offset 07F2
+10, Acierto de TLB, VADDR B7F2 pagina B offset 07F2 marco 1 => PHYSADDR 17F2
+El estado de la tlb es:
+	p:0 	m:2 	v:1 	t:3 
+	p:F 	m:3 	v:1 	t:5 
+	p:E 	m:0 	v:1 	t:8 
+	p:B 	m:1 	v:1 	t:10 
+
+11, Expulsada pagina 0000
+12, Acierto de TLB, VADDR C908 pagina C offset 0908 marco 2 => PHYSADDR 2908
+El estado de la tlb es:
+	p:C 	m:2 	v:1 	t:12 
+	p:F 	m:3 	v:1 	t:5 
+	p:E 	m:0 	v:1 	t:8 
+	p:B 	m:1 	v:1 	t:10 
+
+13, Expulsada pagina 000F
+14, Acierto de TLB, VADDR 4008 pagina 4 offset 0008 marco 3 => PHYSADDR 3008
+El estado de la tlb es:
+	p:C 	m:2 	v:1 	t:12 
+	p:4 	m:3 	v:1 	t:14 
+	p:E 	m:0 	v:1 	t:8 
+	p:B 	m:1 	v:1 	t:10 
+
+15, Acierto de TLB, VADDR C9E2 pagina C offset 09E2 marco 3 => PHYSADDR 39E2
+El estado de la tlb es:
+	p:C 	m:2 	v:1 	t:12 
+	p:4 	m:3 	v:1 	t:15 
+	p:E 	m:0 	v:1 	t:8 
+	p:B 	m:1 	v:1 	t:10 
+
+16, Expulsada pagina 000E
+17, Acierto de TLB, VADDR 1780 pagina 1 offset 0780 marco 0 => PHYSADDR 0780
+El estado de la tlb es:
+	p:C 	m:2 	v:1 	t:12 
+	p:4 	m:3 	v:1 	t:15 
+	p:1 	m:0 	v:1 	t:17 
+	p:B 	m:1 	v:1 	t:10 
+
+18, Acierto de TLB, VADDR C098 pagina C offset 0098 marco 0 => PHYSADDR 0098
+El estado de la tlb es:
+	p:C 	m:2 	v:1 	t:12 
+	p:4 	m:3 	v:1 	t:15 
+	p:1 	m:0 	v:1 	t:18 
+	p:B 	m:1 	v:1 	t:10 
+
+19, Expulsada pagina 000B
+20, Acierto de TLB, VADDR 0204 pagina 0 offset 0204 marco 1 => PHYSADDR 1204
+El estado de la tlb es:
+	p:C 	m:2 	v:1 	t:12 
+	p:4 	m:3 	v:1 	t:15 
+	p:1 	m:0 	v:1 	t:18 
+	p:0 	m:1 	v:1 	t:20 
+
+Recibida SIGUSR2, fin del proceso tlb
+kerneltyr, mi pid es 3306 y la de la tlb es 3307
